@@ -9,15 +9,26 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os, time, csv
+import os
+import time
+import csv
 
 # Config -------------------------------------------
-FACEBOOk_URL = "https://www.facebook.com/groups/732327020285286/members/"
+FACEBOOk_URL = "https://www.facebook.com/groups/521003517969832/members/"
 EMAIL = "happyaphappy@gmail.com"
 PASSWORD = "Fahappy5386!!"
-MEMBER_COUNT = 5600
-OUTPUT_FILE_NAME = "pro1_PDF.csv"
+MEMBER_COUNT = 29072
+OUTPUT_FILE_NAME = "pro1_Greenstyle.csv"
 # -------------------------------------------
+# https://www.facebook.com/groups/Patternsforpiratesgroup/
+# https://www.facebook.com/groups/PDFPatternSalesandPromotions/
+# https://www.facebook.com/groups/sewsweetnessfans/
+# https://www.facebook.com/groups/PDFellieandmacsewingpattern/
+# https://www.facebook.com/groups/277215386008895/
+# https://www.facebook.com/groups/582456251788674/
+# https://www.facebook.com/groups/521003517969832/
+# https://www.facebook.com/groups/MBJMgroup/#
+
 TIEMINTERVAL = 2
 # -------------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -44,7 +55,7 @@ content_ram = []
 loop, leng = True, 0
 while loop and leng < MEMBER_COUNT:
     try:
-        for i in range(10):
+        for i in range(20):
             html.send_keys(Keys.PAGE_DOWN)
         rows = driver.find_elements_by_css_selector(
             "div.lists  div.fbProfileBrowserList.fbProfileBrowserListContainer ul > div"
@@ -55,10 +66,11 @@ while loop and leng < MEMBER_COUNT:
         while content_pointer < leng - 2:
             content_pointer += 1
             content_a = rows[content_pointer].find_element_by_css_selector("a")
-            content_a_name = rows[content_pointer].find_element_by_css_selector("div a")
+            content_a_name = rows[content_pointer].find_element_by_css_selector(
+                "div a")
             content_href = content_a.get_attribute("href")
             content_name = content_a_name.get_attribute("title")
-            print(f"[{content_pointer}] 이름 : {content_name} 링크 : {content_href}")
+            #print(f"[{content_pointer}] 이름 : {content_name} 링크 : {content_href}")
             wf.writerow([content_pointer, content_name, content_href])
     except TimeoutException:
         loop = False

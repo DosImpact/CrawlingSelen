@@ -7,16 +7,21 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os, time, csv, random
+import os
+import time
+import csv
+import random
 
 # Config -------------------------------------------
 FACEBOOk_URL = "https://www.facebook.com/groups/indiera/members/"
-EMAIL = "jappyqqkappy@gmail.com"
-PASSWORD = "Fahappy5386!!"
-TIEMINTERVAL = 2
+EMAIL = "79219881428"
+PASSWORD = "64yHn4&kx"
+TIEMINTERVAL = 0
+IDINTERVALPERR = 90  # 90개의 게시물을 보면 아이디를 체인지 합니다.
 INPUT_FILE_NAME = "pro1_PDF.csv"
-INPUT_START_LINE = 127  # pk보다 하나 적게 이어서 시작!!
+INPUT_START_LINE = 304  # pk보다 하나 적게 이어서 시작!!
 OUTPUT_FILE_NAME = "pro2_PDF.csv"
+HOUSE_IMG_CLASS = "sx_02d6ba"  # 페이스북은 매일매일 CLASS이름을 바꿔주나봐.. 이것도 체킹해야됨..
 # -------------------------------------------
 output_format = []
 # csv FileRead--------------------------------------------
@@ -26,6 +31,7 @@ urls = []
 for row in csvfilerows:
     if len(row) == 0:
         continue
+    print(len(row))
     urls.append([row[0], row[1], row[2]])
 csvfile.close()
 # -------------------------------------------
@@ -59,9 +65,10 @@ for i in range(INPUT_START_LINE, len(urls) - 100, 1):
                 (By.CSS_SELECTOR, "#profile_timeline_intro_card",)
             )
         )
-        profile = driver.find_element_by_css_selector("#profile_timeline_intro_card")
-
-        house = profile.find_element_by_css_selector("i.sx_0e92c8 + div")
+        profile = driver.find_element_by_css_selector(
+            "#profile_timeline_intro_card")
+        house = profile.find_element_by_css_selector(
+            f"i.{HOUSE_IMG_CLASS} + div")
         house_text = house.text
         urls[i].extend([house_text])
 
@@ -81,6 +88,6 @@ for i in range(INPUT_START_LINE, len(urls) - 100, 1):
 
     print(urls[i])
     csvfilerows.writerow(urls[i])
-    time.sleep(random.randint(10, 50))
+    #time.sleep(random.randint(10, 50))
 
 csvfile.close()
